@@ -6,14 +6,16 @@ import CartItem from "../../components/cartItem/CartItem"
 
 import ProductContext from "../../context/context"
 
+import { CartType } from "../../types"
+
 const Cart: React.FC = () => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [cartError, setCartError] = useState(null)
 	const [productError, setProductError] = useState(null)
-	const [carts, setCarts] = useState<any>([])
+	const [carts, setCarts] = useState<CartType | undefined>()
 	const [products, setProducts] = useState<any>([])
 	const api = "https://fakestoreapi.com"
-	const numberOfCarts = 5
+	const numberOfCarts: number = 5
 
 	//Fetch 5 carts from API
 	async function fetchCarts() {
@@ -22,7 +24,6 @@ const Cart: React.FC = () => {
 				.then((res) => res.json())
 				.then((json) => {
 					setCarts(json)
-					console.log(json)
 				})
 		} catch (e) {
 			setCartError(e)
@@ -37,7 +38,6 @@ const Cart: React.FC = () => {
 				.then((res) => res.json())
 				.then((json) => {
 					setProducts(json)
-					console.log(json)
 				})
 		} catch (e) {
 			setProductError(e)
@@ -59,7 +59,7 @@ const Cart: React.FC = () => {
 				<p>
 					<FontAwesomeIcon className='fa-spin' icon={faSpinner} />
 				</p>
-			) : (
+			) : carts !== undefined ? (
 				carts.map((cart: any) => (
 					<div key={`cart_${cart.id}`}>
 						<div className='cartItem'>
@@ -68,8 +68,17 @@ const Cart: React.FC = () => {
 								products.map((product: any) => {
 									if (product.id === cartProduct.productId) {
 										return (
-											<p
-												key={`product_${product.id}`}>{`${product.title} - ${cartProduct.quantity}`}</p>
+											<div key={`product_${product.id}`}>
+												<p>
+													<img
+														alt={product.title}
+														width={200}
+														src={product.image}
+													/>
+												</p>
+												<p>{product.title}</p>
+												<p>{`Price: ${product.price} - ${cartProduct.quantity} pcs`}</p>
+											</div>
 										)
 									}
 								}),
@@ -78,7 +87,7 @@ const Cart: React.FC = () => {
 						</div>
 					</div>
 				))
-			)}
+			) : null}
 		</div>
 	)
 }
