@@ -7,3 +7,11 @@ export type CartProductType = {
 	productId: number
 	quantity: number
 }
+
+export type ProductType = {
+	id: number
+	image: string
+	title: string
+	price: number
+	quantity: number
+}[]

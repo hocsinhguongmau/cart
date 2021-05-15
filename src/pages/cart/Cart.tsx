@@ -6,14 +6,14 @@ import CartItem from "../../components/cartItem/CartItem"
 
 import ProductContext from "../../context/context"
 
-import { CartType } from "../../types"
+import { CartProductType, CartType, ProductType } from "../../types"
 
 const Cart: React.FC = () => {
-	const [isLoading, setIsLoading] = useState(true)
-	const [cartError, setCartError] = useState(null)
-	const [productError, setProductError] = useState(null)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [cartError, setCartError] = useState<string | null>(null)
+	const [productError, setProductError] = useState<string | null>(null)
 	const [carts, setCarts] = useState<CartType | undefined>()
-	const [products, setProducts] = useState<any>([])
+	const [products, setProducts] = useState<ProductType | undefined>()
 	const api = "https://fakestoreapi.com"
 	const numberOfCarts: number = 5
 
@@ -60,28 +60,38 @@ const Cart: React.FC = () => {
 					<FontAwesomeIcon className='fa-spin' icon={faSpinner} />
 				</p>
 			) : carts !== undefined ? (
-				carts.map((cart: any) => (
+				carts.map((cart) => (
 					<div key={`cart_${cart.id}`}>
 						<div className='cartItem'>
 							<p>Order number: {cart.id}</p>
-							{cart.products.map((cartProduct: any) =>
-								products.map((product: any) => {
-									if (product.id === cartProduct.productId) {
-										return (
-											<div key={`product_${product.id}`}>
-												<p>
-													<img
-														alt={product.title}
-														width={200}
-														src={product.image}
-													/>
-												</p>
-												<p>{product.title}</p>
-												<p>{`Price: ${product.price} - ${cartProduct.quantity} pcs`}</p>
-											</div>
-										)
-									}
-								}),
+							{cart.products.map((cartProduct: CartProductType) =>
+								products !== undefined
+									? products.map((product) => {
+											if (
+												product.id ===
+												cartProduct.productId
+											) {
+												return (
+													<div
+														key={`product_${product.id}`}>
+														<p>
+															<img
+																alt={
+																	product.title
+																}
+																width={200}
+																src={
+																	product.image
+																}
+															/>
+														</p>
+														<p>{product.title}</p>
+														<p>{`Price: ${product.price} - ${cartProduct.quantity} pcs`}</p>
+													</div>
+												)
+											}
+									  })
+									: null,
 							)}
 							<hr />
 						</div>
