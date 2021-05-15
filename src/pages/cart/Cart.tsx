@@ -18,7 +18,6 @@ const Cart: React.FC = () => {
 	//Fetch 5 carts from API
 	async function fetchCarts() {
 		try {
-			setIsLoading(true)
 			await fetch(`${api}/carts?limit=${numberOfCarts}`)
 				.then((res) => res.json())
 				.then((json) => {
@@ -27,8 +26,6 @@ const Cart: React.FC = () => {
 				})
 		} catch (e) {
 			setCartError(e)
-		} finally {
-			setIsLoading(false)
 		}
 	}
 
@@ -67,13 +64,16 @@ const Cart: React.FC = () => {
 					<div key={`cart_${cart.id}`}>
 						<div className='cartItem'>
 							<p>Order number: {cart.id}</p>
-							{cart.products.map((cartProduct: any) => {
-								return (
-									<p>
-										{products[cartProduct.productId].title}
-									</p>
-								)
-							})}
+							{cart.products.map((cartProduct: any) =>
+								products.map((product: any) => {
+									if (product.id === cartProduct.productId) {
+										return (
+											<p
+												key={`product_${product.id}`}>{`${product.title} - ${cartProduct.quantity}`}</p>
+										)
+									}
+								}),
+							)}
 							<hr />
 						</div>
 					</div>
