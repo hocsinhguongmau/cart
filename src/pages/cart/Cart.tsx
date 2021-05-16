@@ -8,6 +8,8 @@ import ProductContext from "../../context/context"
 
 import { CartType, ProductType } from "../../types"
 
+import "./cart.scss"
+
 const Cart: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [cartError, setCartError] = useState<string | null>(null)
@@ -53,18 +55,17 @@ const Cart: React.FC = () => {
 
 	return (
 		<div className='cart'>
+			<h1 className='cart__title'>Your cart</h1>
 			<ProductContext.Provider value={products}>
 				{cartError ? "Failed to load cart" : null}
 				{productError ? "Failed to load products" : null}
 				{isLoading ? (
-					<p>
+					<p className='loading'>
 						<FontAwesomeIcon className='fa-spin' icon={faSpinner} />
 					</p>
 				) : carts !== undefined ? (
 					carts.map((cart) => (
-						<div key={`cart_${cart.id}`}>
-							<CartItem cart={cart} />
-						</div>
+						<CartItem key={`cart_${cart.id}`} cart={cart} />
 					))
 				) : null}
 			</ProductContext.Provider>

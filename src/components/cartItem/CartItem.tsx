@@ -8,10 +8,26 @@ import { CartProductType } from "../../types"
 const CartItem: React.FC<any> = ({ cart }): JSX.Element => {
 	return (
 		<div className='cartItem'>
-			<p>Order number: {cart.id}</p>
-			{cart.products.map((cartProduct: CartProductType) => (
-				<Product cartProduct={cartProduct} />
-			))}
+			<p className='cartItem__title'>Order number: {cart.id}</p>
+			<table cellPadding={0} cellSpacing={0}>
+				<thead>
+					<tr>
+						<th>Remove</th>
+						<th>Image</th>
+						<th>Name</th>
+						<th>Price</th>
+						<th>Quantity</th>
+					</tr>
+				</thead>
+				<tbody>
+					{cart.products.map((cartProduct: CartProductType) => (
+						<Product
+							key={`product_${cartProduct.productId}`}
+							cartProduct={cartProduct}
+						/>
+					))}
+				</tbody>
+			</table>
 		</div>
 	)
 }

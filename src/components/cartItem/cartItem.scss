@@ -1,3 +1,23 @@
 .cartItem {
-	border-bottom: 1px solid #000;
+	&__title {
+		font-size: 20px;
+		font-weight: bold;
+	}
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		th,
+		td {
+			text-align: center;
+			padding: 10px 15px;
+			border: 1px solid #d0dfde;
+		}
+
+		th {
+			background-color: #d0dfde;
+		}
+		td:nth-child(3) {
+			text-align: left;
+		}
+	}
 }

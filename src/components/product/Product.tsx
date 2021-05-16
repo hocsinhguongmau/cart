@@ -3,6 +3,8 @@ import React, { useContext } from "react"
 import ProductContext from "../../context/context"
 import { ProductType } from "../../types"
 
+import "./product.scss"
+
 const Product: React.FC<any> = ({ cartProduct }): JSX.Element => {
 	const products = useContext(ProductContext)
 	return products !== undefined
@@ -12,17 +14,17 @@ const Product: React.FC<any> = ({ cartProduct }): JSX.Element => {
 						product.id === cartProduct.productId,
 				)
 				.map((product: ProductType) => (
-					<div key={`product_${product.id}`}>
-						<p>{product.title}</p>
-						<p>
-							<img
-								alt={product.title}
-								width={70}
-								src={product.image}
-							/>
-						</p>
-						<p>{`Price: ${product.price} - ${cartProduct.quantity} pcs`}</p>
-					</div>
+					<tr className='product' key={`product_${product.id}`}>
+						<td>x</td>
+						<td className='product__img'>
+							<img alt={product.title} src={product.image} />
+						</td>
+						<td className='product__title'>{product.title}</td>
+						<td className='product__price'>{product.price} </td>
+						<td className='product__price'>
+							{cartProduct.quantity}
+						</td>
+					</tr>
 				))
 		: null
 }

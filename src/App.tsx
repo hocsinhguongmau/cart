@@ -1,11 +1,14 @@
 import React from "react"
+import Cart from "./pages/cart/Cart"
 
-import Home from "./pages/cart/Cart"
+import "./app.scss"
 
 const App: React.FC = () => {
 	return (
 		<div className='App'>
-			<Home />
+			<div className='container'>
+				<Cart />
+			</div>
 		</div>
 	)
 }
