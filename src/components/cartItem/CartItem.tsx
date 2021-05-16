@@ -1,17 +1,16 @@
 import React, { useContext } from "react"
 
 import "./cartItem.scss"
+import Product from "../product/Product"
 
-import ProductContext from "../../context/context"
+import { CartProductType } from "../../types"
 
-const CartItem: React.FC<any> = ({ props }): JSX.Element => {
-	const products = useContext(ProductContext)
+const CartItem: React.FC<any> = ({ cart }): JSX.Element => {
 	return (
 		<div className='cartItem'>
-			<p>Order number: {props.id}</p>
-			<p>By child {props.id}</p>
-			{props.products.map((product: any) => (
-				<p>{product.productId}</p>
+			<p>Order number: {cart.id}</p>
+			{cart.products.map((cartProduct: CartProductType) => (
+				<Product cartProduct={cartProduct} />
 			))}
 		</div>
 	)

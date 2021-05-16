@@ -14,4 +14,4 @@ export type ProductType = {
 	title: string
 	price: number
 	quantity: number
-}[]
+}

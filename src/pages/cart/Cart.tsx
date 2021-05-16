@@ -6,7 +6,7 @@ import CartItem from "../../components/cartItem/CartItem"
 
 import ProductContext from "../../context/context"
 
-import { CartProductType, CartType, ProductType } from "../../types"
+import { CartType, ProductType } from "../../types"
 
 const Cart: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -53,51 +53,21 @@ const Cart: React.FC = () => {
 
 	return (
 		<div className='cart'>
-			{cartError ? "Failed to load cart" : null}
-			{productError ? "Failed to load products" : null}
-			{isLoading ? (
-				<p>
-					<FontAwesomeIcon className='fa-spin' icon={faSpinner} />
-				</p>
-			) : carts !== undefined ? (
-				carts.map((cart) => (
-					<div key={`cart_${cart.id}`}>
-						<div className='cartItem'>
-							<p>Order number: {cart.id}</p>
-							{cart.products.map((cartProduct: CartProductType) =>
-								products !== undefined
-									? products.map((product) => {
-											if (
-												product.id ===
-												cartProduct.productId
-											) {
-												return (
-													<div
-														key={`product_${product.id}`}>
-														<p>
-															<img
-																alt={
-																	product.title
-																}
-																width={200}
-																src={
-																	product.image
-																}
-															/>
-														</p>
-														<p>{product.title}</p>
-														<p>{`Price: ${product.price} - ${cartProduct.quantity} pcs`}</p>
-													</div>
-												)
-											}
-									  })
-									: null,
-							)}
-							<hr />
+			<ProductContext.Provider value={products}>
+				{cartError ? "Failed to load cart" : null}
+				{productError ? "Failed to load products" : null}
+				{isLoading ? (
+					<p>
+						<FontAwesomeIcon className='fa-spin' icon={faSpinner} />
+					</p>
+				) : carts !== undefined ? (
+					carts.map((cart) => (
+						<div key={`cart_${cart.id}`}>
+							<CartItem cart={cart} />
 						</div>
-					</div>
-				))
-			) : null}
+					))
+				) : null}
+			</ProductContext.Provider>
 		</div>
 	)
 }
