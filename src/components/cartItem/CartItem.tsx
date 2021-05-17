@@ -12,11 +12,11 @@ const CartItem: React.FC<any> = ({ cart }): JSX.Element => {
 			<table cellPadding={0} cellSpacing={0}>
 				<thead>
 					<tr>
-						<th>Remove</th>
 						<th>Image</th>
 						<th>Name</th>
 						<th>Price</th>
 						<th>Quantity</th>
+						<th>Remove</th>
 					</tr>
 				</thead>
 				<tbody>

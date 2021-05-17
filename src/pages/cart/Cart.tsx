@@ -54,7 +54,7 @@ const Cart: React.FC = () => {
 	}, [])
 
 	return (
-		<div className='cart'>
+		<div className='cart' data-testid='cart'>
 			<h1 className='cart__title'>Your cart</h1>
 			<ProductContext.Provider value={products}>
 				{cartError ? "Failed to load cart" : null}

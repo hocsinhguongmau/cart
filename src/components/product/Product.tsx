@@ -15,7 +15,6 @@ const Product: React.FC<any> = ({ cartProduct }): JSX.Element => {
 				)
 				.map((product: ProductType) => (
 					<tr className='product' key={`product_${product.id}`}>
-						<td>x</td>
 						<td className='product__img'>
 							<img alt={product.title} src={product.image} />
 						</td>
@@ -24,6 +23,7 @@ const Product: React.FC<any> = ({ cartProduct }): JSX.Element => {
 						<td className='product__price'>
 							{cartProduct.quantity}
 						</td>
+						<td>x</td>
 					</tr>
 				))
 		: null
