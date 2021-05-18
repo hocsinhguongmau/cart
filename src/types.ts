@@ -1,6 +1,9 @@
 export type CartType = {
 	id: number
-	products: Array<CartProductType>
+	userId: number
+	date: string
+	products: CartProductType[]
+	__v: number
 }[]
 
 export type CartProductType = {
@@ -10,8 +13,9 @@ export type CartProductType = {
 
 export type ProductType = {
 	id: number
-	image: string
 	title: string
 	price: number
-	quantity: number
+	description: string
+	category: string
+	image: string
 }
