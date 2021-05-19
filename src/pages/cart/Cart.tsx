@@ -9,46 +9,42 @@ import ProductContext from "../../context/context"
 import { CartType, ProductType } from "../../types"
 
 import "./cart.scss"
+const api = "https://fakestoreapi.com"
+const numberOfCarts: number = 5
 
 const Cart: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [cartError, setCartError] = useState<string | null>(null)
 	const [productError, setProductError] = useState<string | null>(null)
-	const [carts, setCarts] = useState<CartType | undefined>()
-	const [products, setProducts] = useState<ProductType | undefined>()
-	const api = "https://fakestoreapi.com"
-	const numberOfCarts: number = 5
-
-	//Fetch 5 carts from API
-
-	async function fetchCarts() {
-		axios
-			.get(`${api}/carts?limit=${numberOfCarts}`)
-			.then(function (response: any) {
-				console.log(response)
-				setCarts(response.data)
-			})
-			.catch(function (error: string) {
-				setCartError(error)
-			})
-	}
-
-	//Fetch all products from API
-	async function fetchProducts() {
-		setIsLoading(true)
-		axios
-			.get(`${api}/products`)
-			.then(function (response: any) {
-				console.log(response)
-				setProducts(response.data)
-			})
-			.catch(function (error: string) {
-				setCartError(error)
-			})
-			.then(() => setIsLoading(false))
-	}
+	const [carts, setCarts] = useState<CartType[] | undefined>()
+	const [products, setProducts] = useState<ProductType[] | undefined>()
 
 	useEffect(() => {
+		//Fetch 5 carts from API
+		const fetchCarts = async () => {
+			await axios
+				.get(`${api}/carts?limit=${numberOfCarts}`)
+				.then(function (response: any) {
+					setCarts(response.data)
+				})
+				.catch(function (error: string) {
+					setCartError(error)
+				})
+		}
+
+		//Fetch all products from API
+		const fetchProducts = async () => {
+			setIsLoading(true)
+			await axios
+				.get(`${api}/products`)
+				.then(function (response: any) {
+					setProducts(response.data)
+				})
+				.catch(function (error: string) {
+					setCartError(error)
+				})
+				.then(() => setIsLoading(false))
+		}
 		fetchProducts()
 		fetchCarts()
 	}, [])

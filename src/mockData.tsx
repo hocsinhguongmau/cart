@@ -1,6 +1,6 @@
 import { CartType, ProductType } from "./types"
 
-export const carts: CartType = [
+export const carts: CartType[] = [
 	{
 		id: 1,
 		userId: 1,

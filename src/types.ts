@@ -4,7 +4,7 @@ export type CartType = {
 	date: string
 	products: CartProductType[]
 	__v: number
-}[]
+}
 
 export type CartProductType = {
 	productId: number
