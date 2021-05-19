@@ -41,7 +41,7 @@ describe("<Cart />", () => {
 	it("renders 5 carts", async () => {
 		const component = render(<Cart />)
 		await waitFor(() => {
-			const items = component.getAllByTestId("cartItem")
+			const items = component.getAllByTestId("cart-item")
 			expect(items).toHaveLength(5)
 		})
 	})

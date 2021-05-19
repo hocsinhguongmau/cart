@@ -7,9 +7,9 @@ import { CartProductType } from "../../types"
 
 const CartItem: React.FC<any> = ({ cart }): JSX.Element => {
 	return (
-		<div className='cartItem' data-testid='cartItem'>
+		<div className='cartItem' data-testid='cart-item'>
 			<p className='cartItem__title'>Order number: {cart.id}</p>
-			<table cellPadding={0} cellSpacing={0}>
+			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
 				<thead>
 					<tr>
 						<th>Image</th>
