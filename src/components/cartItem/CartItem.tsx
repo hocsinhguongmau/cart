@@ -1,11 +1,14 @@
-import React, { useContext } from "react"
+import React from "react"
 
 import "./cartItem.scss"
 import Product from "../product/Product"
 
-import { CartProductType } from "../../types"
+import { CartProductType, CartType } from "../../types"
 
-const CartItem: React.FC<any> = ({ cart }): JSX.Element => {
+type Props = {
+	cart: CartType
+}
+const CartItem: Function = ({ cart }: Props): JSX.Element => {
 	return (
 		<div className='cartItem' data-testid='cart-item'>
 			<p className='cartItem__title'>Order number: {cart.id}</p>

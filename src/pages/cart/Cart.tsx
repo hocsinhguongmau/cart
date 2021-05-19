@@ -41,7 +41,7 @@ const Cart: React.FC = () => {
 					setProducts(response.data)
 				})
 				.catch(function (error: string) {
-					setCartError(error)
+					setProductError(error)
 				})
 				.then(() => setIsLoading(false))
 		}
