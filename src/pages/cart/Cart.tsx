@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
+
 import CartItem from "../../components/cartItem/CartItem"
 
-import ProductContext from "../../context/context"
+import { ProductContext, CartContext } from "../../context/context"
 
 import { CartType, ProductType } from "../../types"
 
@@ -16,8 +17,22 @@ const Cart: React.FC = () => {
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [cartError, setCartError] = useState<string | null>(null)
 	const [productError, setProductError] = useState<string | null>(null)
-	const [carts, setCarts] = useState<CartType[] | undefined>()
-	const [products, setProducts] = useState<ProductType[] | undefined>()
+	const [carts, setCarts] = useState<CartType[]>([])
+	const [products, setProducts] = useState<ProductType[]>([])
+
+	const handleSubtractQuantity = (
+		cartIndex: number,
+		productIndex: number,
+	) => {
+		let newCarts = [...carts]
+		newCarts[cartIndex].products[productIndex].quantity--
+		setCarts(newCarts)
+	}
+	const handleAddQuantity = (cartIndex: number, productIndex: number) => {
+		let newCarts = [...carts]
+		newCarts[cartIndex].products[productIndex].quantity++
+		setCarts(newCarts)
+	}
 
 	useEffect(() => {
 		//Fetch 5 carts from API
@@ -53,17 +68,31 @@ const Cart: React.FC = () => {
 		<div className='cart' data-testid='cart'>
 			<h1 className='cart__title'>Your cart</h1>
 			<ProductContext.Provider value={products}>
-				{cartError ? "Failed to load cart" : null}
-				{productError ? "Failed to load products" : null}
-				{isLoading ? (
-					<p className='loading'>
-						<FontAwesomeIcon className='fa-spin' icon={faSpinner} />
-					</p>
-				) : carts !== undefined ? (
-					carts.map((cart) => (
-						<CartItem key={`cart_${cart.id}`} cart={cart} />
-					))
-				) : null}
+				<CartContext.Provider
+					value={{
+						carts,
+						handleSubtractQuantity,
+						handleAddQuantity,
+					}}>
+					{cartError ? "Failed to load cart" : null}
+					{productError ? "Failed to load products" : null}
+					{isLoading ? (
+						<p className='loading'>
+							<FontAwesomeIcon
+								className='fa-spin'
+								icon={faSpinner}
+							/>
+						</p>
+					) : carts !== undefined ? (
+						carts.map((cart, cartIndex) => (
+							<CartItem
+								key={`cart_${cart.id}`}
+								cart={cart}
+								cartIndex={cartIndex}
+							/>
+						))
+					) : null}
+				</CartContext.Provider>
 			</ProductContext.Provider>
 		</div>
 	)

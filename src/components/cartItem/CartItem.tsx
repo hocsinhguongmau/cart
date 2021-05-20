@@ -7,10 +7,12 @@ import { CartProductType, CartType } from "../../types"
 
 type Props = {
 	cart: CartType
+	cartIndex: number
 }
-const CartItem: Function = ({ cart }: Props): JSX.Element => {
+const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
 	return (
 		<div className='cartItem' data-testid='cart-item'>
+			<p>{cartIndex}</p>
 			<p className='cartItem__title'>Order number: {cart.id}</p>
 			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
 				<thead>
@@ -23,12 +25,20 @@ const CartItem: Function = ({ cart }: Props): JSX.Element => {
 					</tr>
 				</thead>
 				<tbody>
-					{cart.products.map((cartProduct: CartProductType) => (
-						<Product
-							key={`product_${cartProduct.productId}`}
-							cartProduct={cartProduct}
-						/>
-					))}
+					{cart.products.map(
+						(
+							cartProduct: CartProductType,
+							productIndex: number,
+						) => (
+							<Product
+								cartId={cart.id}
+								productIndex={productIndex}
+								cartIndex={cartIndex}
+								key={`product_${cartProduct.productId}`}
+								cartProduct={cartProduct}
+							/>
+						),
+					)}
 				</tbody>
 			</table>
 		</div>
