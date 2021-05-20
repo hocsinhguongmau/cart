@@ -19,21 +19,62 @@ const Cart: React.FC = () => {
 	const [productError, setProductError] = useState<string | null>(null)
 	const [carts, setCarts] = useState<CartType[]>([])
 	const [products, setProducts] = useState<ProductType[]>([])
+	const [originalCarts, setOriginalCarts] = useState<CartType[]>([])
+	const [difCarts, setDifCarts] = useState<CartType[]>([])
 
-	const handleSubtractQuantity = (
-		cartIndex: number,
-		productIndex: number,
-	) => {
-		let newCarts = [...carts]
-		newCarts[cartIndex].products[productIndex].quantity--
-		setCarts(newCarts)
-	}
-	const handleAddQuantity = (cartIndex: number, productIndex: number) => {
-		let newCarts = [...carts]
-		newCarts[cartIndex].products[productIndex].quantity++
-		setCarts(newCarts)
+	const handleRemoveCart = (cartId: number) => {
+		const clonedCarts = carts.filter((cart) => cart.id !== cartId)
+		setCarts(clonedCarts)
 	}
 
+	const handleSubtractQuantity = (cartIndex: number, id: number) => {
+		const clonedCarts = [...carts]
+		const modifiedCarts = clonedCarts[cartIndex].products.map((product) => {
+			if (product.productId === id) {
+				return {
+					productId: product.productId,
+					quantity: product.quantity - 1,
+				}
+			} else {
+				return product
+			}
+		})
+		clonedCarts[cartIndex].products = modifiedCarts
+		setCarts(clonedCarts)
+	}
+	const handleAddQuantity = (cartIndex: number, id: number) => {
+		const clonedCarts = [...carts]
+		const modifiedCarts = clonedCarts[cartIndex].products.map((product) => {
+			if (product.productId === id) {
+				return {
+					productId: product.productId,
+					quantity: product.quantity + 1,
+				}
+			} else {
+				return product
+			}
+		})
+		clonedCarts[cartIndex].products = modifiedCarts
+
+		setCarts(clonedCarts)
+	}
+	const handleRemoveProduct = (cartIndex: number, id: number) => {
+		const clonedCarts = [...carts]
+		const products = clonedCarts[cartIndex].products
+		if (products.length > 1) {
+			const filteredCart = products.filter(
+				(product) => product.productId !== id,
+			)
+			clonedCarts[cartIndex].products = filteredCart
+			setCarts(clonedCarts)
+		} else {
+			const hmm = clonedCarts.filter((cart, index) => index !== cartIndex)
+			setCarts(hmm)
+		}
+	}
+	const handleDifference = () => {
+		console.log(difCarts)
+	}
 	useEffect(() => {
 		//Fetch 5 carts from API
 		const fetchCarts = async () => {
@@ -41,6 +82,7 @@ const Cart: React.FC = () => {
 				.get(`${api}/carts?limit=${numberOfCarts}`)
 				.then(function (response: any) {
 					setCarts(response.data)
+					setOriginalCarts(response.data)
 				})
 				.catch(function (error: string) {
 					setCartError(error)
@@ -73,6 +115,8 @@ const Cart: React.FC = () => {
 						carts,
 						handleSubtractQuantity,
 						handleAddQuantity,
+						handleRemoveProduct,
+						handleRemoveCart,
 					}}>
 					{cartError ? "Failed to load cart" : null}
 					{productError ? "Failed to load products" : null}
@@ -94,6 +138,7 @@ const Cart: React.FC = () => {
 					) : null}
 				</CartContext.Provider>
 			</ProductContext.Provider>
+			<button>Checkout</button>
 		</div>
 	)
 }

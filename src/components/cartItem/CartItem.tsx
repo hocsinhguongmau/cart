@@ -1,18 +1,20 @@
-import React from "react"
+import React, { useContext } from "react"
 
 import "./cartItem.scss"
 import Product from "../product/Product"
 
 import { CartProductType, CartType } from "../../types"
 
+import { CartContext } from "../../context/context"
+
 type Props = {
 	cart: CartType
 	cartIndex: number
 }
 const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
+	const carts = useContext(CartContext)
 	return (
 		<div className='cartItem' data-testid='cart-item'>
-			<p>{cartIndex}</p>
 			<p className='cartItem__title'>Order number: {cart.id}</p>
 			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
 				<thead>
@@ -25,22 +27,19 @@ const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
 					</tr>
 				</thead>
 				<tbody>
-					{cart.products.map(
-						(
-							cartProduct: CartProductType,
-							productIndex: number,
-						) => (
-							<Product
-								cartId={cart.id}
-								productIndex={productIndex}
-								cartIndex={cartIndex}
-								key={`product_${cartProduct.productId}`}
-								cartProduct={cartProduct}
-							/>
-						),
-					)}
+					{cart.products.map((cartProduct: CartProductType) => (
+						<Product
+							cartId={cart.id}
+							cartIndex={cartIndex}
+							key={`product_${cartProduct.productId}`}
+							cartProduct={cartProduct}
+						/>
+					))}
 				</tbody>
 			</table>
+			<button onClick={() => carts.handleRemoveCart(cart.id)}>
+				Remove cart
+			</button>
 		</div>
 	)
 }
