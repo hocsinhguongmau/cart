@@ -11,8 +11,8 @@ type Props = {
 
 const Summary: Function = ({ cartProduct }: Props) => {
 	return (
-		<div className='cartItem' data-testid='cart-item'>
-			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
+		<div className='summaryItem' data-testid='summary-item'>
+			<table cellPadding={0} cellSpacing={0} data-testid='summary-table'>
 				<thead>
 					<tr>
 						<th>Image</th>

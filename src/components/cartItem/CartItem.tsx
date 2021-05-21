@@ -6,6 +6,9 @@ import Product from "../product/Product"
 import { CartProductType, CartType } from "../../types"
 
 import { CartContext } from "../../context/context"
+import Button from "../button/Button"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 
 type Props = {
 	cart: CartType
@@ -15,7 +18,12 @@ const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
 	const carts = useContext(CartContext)
 	return (
 		<div className='cartItem' data-testid='cart-item'>
-			<p className='cartItem__title'>Order number: {cart.id}</p>
+			<p className='cartItem__title'>
+				Order number: {cart.id}
+				<Button onClickHandler={() => carts.handleRemoveCart(cart.id)}>
+					<FontAwesomeIcon icon={faTrashAlt} />
+				</Button>
+			</p>
 			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
 				<thead>
 					<tr>
@@ -37,9 +45,6 @@ const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
 					))}
 				</tbody>
 			</table>
-			<button onClick={() => carts.handleRemoveCart(cart.id)}>
-				Remove cart
-			</button>
 		</div>
 	)
 }

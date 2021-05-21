@@ -11,6 +11,7 @@ import { ProductContext, CartContext } from "../../context/context"
 import { CartProductType, CartType, ProductType } from "../../types"
 
 import "./cart.scss"
+import Button from "../../components/button/Button"
 const api = "https://fakestoreapi.com"
 const numberOfCarts: number = 5
 
@@ -174,7 +175,9 @@ const Cart: React.FC = () => {
 								))
 							) : null}
 						</CartContext.Provider>
-						<button onClick={handleCheckout}>Checkout</button>
+						<Button onClickHandler={handleCheckout}>
+							Checkout
+						</Button>
 					</div>
 				)}
 				{showSummary && <Summary cartProduct={summaryCarts} />}

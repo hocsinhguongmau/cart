@@ -1,7 +1,10 @@
+import { faMinus, faPlus, faTrashAlt } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useContext } from "react"
 
 import { ProductContext, CartContext } from "../../context/context"
 import { CartProductType, ProductType } from "../../types"
+import Button from "../button/Button"
 
 import "./product.scss"
 
@@ -24,30 +27,31 @@ const Product: Function = ({ cartProduct, cartIndex }: Props) => {
 					<td className='product__title'>{product.title}</td>
 					<td className='product__price'>{product.price} </td>
 					<td className='product__price'>
-						<button
-							onClick={() =>
+						<Button
+							onClickHandler={() =>
 								carts.handleSubtractQuantity(
 									cartIndex,
 									product.id,
 								)
 							}>
-							-
-						</button>
+							<FontAwesomeIcon icon={faMinus} />
+						</Button>
+
 						{cartProduct.quantity}
-						<button
-							onClick={() =>
+						<Button
+							onClickHandler={() =>
 								carts.handleAddQuantity(cartIndex, product.id)
 							}>
-							+
-						</button>
+							<FontAwesomeIcon icon={faPlus} />
+						</Button>
 					</td>
 					<td>
-						<button
-							onClick={() =>
+						<Button
+							onClickHandler={() =>
 								carts.handleRemoveProduct(cartIndex, product.id)
 							}>
-							x
-						</button>
+							<FontAwesomeIcon icon={faTrashAlt} />
+						</Button>
 					</td>
 				</tr>
 			)
