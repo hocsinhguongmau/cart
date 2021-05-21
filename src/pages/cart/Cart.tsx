@@ -4,10 +4,11 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 
 import CartItem from "../../components/cartItem/CartItem"
+import Summary from "../../components/summary/Summary"
 
 import { ProductContext, CartContext } from "../../context/context"
 
-import { CartType, ProductType } from "../../types"
+import { CartProductType, CartType, ProductType } from "../../types"
 
 import "./cart.scss"
 const api = "https://fakestoreapi.com"
@@ -19,18 +20,29 @@ const Cart: React.FC = () => {
 	const [productError, setProductError] = useState<string | null>(null)
 	const [carts, setCarts] = useState<CartType[]>([])
 	const [products, setProducts] = useState<ProductType[]>([])
-	const [originalCarts, setOriginalCarts] = useState<CartType[]>([])
-	const [difCarts, setDifCarts] = useState<CartType[]>([])
+	const [discards, setDiscards] = useState<CartType[]>([])
+	const [showSummary, setShowSummary] = useState<boolean>(false)
+	const [summaryCarts, setSummaryCarts] = useState<CartProductType[]>([])
 
 	const handleRemoveCart = (cartId: number) => {
 		const clonedCarts = carts.filter((cart) => cart.id !== cartId)
+		const removeCarts = [...discards]
+		carts.forEach((cart) => {
+			if (cart.id === cartId) {
+				removeCarts.push(cart)
+			}
+		})
 		setCarts(clonedCarts)
+		setDiscards(removeCarts)
 	}
 
 	const handleSubtractQuantity = (cartIndex: number, id: number) => {
 		const clonedCarts = [...carts]
 		const modifiedCarts = clonedCarts[cartIndex].products.map((product) => {
 			if (product.productId === id) {
+				if (product.quantity < 1) {
+					return product
+				}
 				return {
 					productId: product.productId,
 					quantity: product.quantity - 1,
@@ -65,15 +77,39 @@ const Cart: React.FC = () => {
 			const filteredCart = products.filter(
 				(product) => product.productId !== id,
 			)
+
 			clonedCarts[cartIndex].products = filteredCart
 			setCarts(clonedCarts)
 		} else {
-			const hmm = clonedCarts.filter((cart, index) => index !== cartIndex)
-			setCarts(hmm)
+			const filteredCarts = clonedCarts.filter(
+				(cart, index) => index !== cartIndex,
+			)
+
+			setCarts(filteredCarts)
 		}
 	}
-	const handleDifference = () => {
-		console.log(difCarts)
+	const handleCheckout = () => {
+		const summaryProducts: any = []
+		carts.forEach((cart) =>
+			cart.products.forEach((product) => {
+				summaryProducts.push(product)
+			}),
+		)
+
+		const result = summaryProducts.reduce(
+			(r: any, { productId, quantity }: any) => {
+				r[productId] = r[productId] || {
+					productId,
+					quantity: 0,
+				}
+				r[productId].quantity += quantity
+				return r
+			},
+			{},
+		)
+
+		setSummaryCarts(Object.values(result))
+		setShowSummary(true)
 	}
 	useEffect(() => {
 		//Fetch 5 carts from API
@@ -82,7 +118,6 @@ const Cart: React.FC = () => {
 				.get(`${api}/carts?limit=${numberOfCarts}`)
 				.then(function (response: any) {
 					setCarts(response.data)
-					setOriginalCarts(response.data)
 				})
 				.catch(function (error: string) {
 					setCartError(error)
@@ -110,35 +145,40 @@ const Cart: React.FC = () => {
 		<div className='cart' data-testid='cart'>
 			<h1 className='cart__title'>Your cart</h1>
 			<ProductContext.Provider value={products}>
-				<CartContext.Provider
-					value={{
-						carts,
-						handleSubtractQuantity,
-						handleAddQuantity,
-						handleRemoveProduct,
-						handleRemoveCart,
-					}}>
-					{cartError ? "Failed to load cart" : null}
-					{productError ? "Failed to load products" : null}
-					{isLoading ? (
-						<p className='loading'>
-							<FontAwesomeIcon
-								className='fa-spin'
-								icon={faSpinner}
-							/>
-						</p>
-					) : carts !== undefined ? (
-						carts.map((cart, cartIndex) => (
-							<CartItem
-								key={`cart_${cart.id}`}
-								cart={cart}
-								cartIndex={cartIndex}
-							/>
-						))
-					) : null}
-				</CartContext.Provider>
+				{!showSummary && (
+					<div>
+						<CartContext.Provider
+							value={{
+								carts,
+								handleSubtractQuantity,
+								handleAddQuantity,
+								handleRemoveProduct,
+								handleRemoveCart,
+							}}>
+							{cartError ? "Failed to load cart" : null}
+							{productError ? "Failed to load products" : null}
+							{isLoading ? (
+								<p className='loading'>
+									<FontAwesomeIcon
+										className='fa-spin'
+										icon={faSpinner}
+									/>
+								</p>
+							) : carts !== undefined ? (
+								carts.map((cart, cartIndex) => (
+									<CartItem
+										key={`cart_${cart.id}`}
+										cart={cart}
+										cartIndex={cartIndex}
+									/>
+								))
+							) : null}
+						</CartContext.Provider>
+						<button onClick={handleCheckout}>Checkout</button>
+					</div>
+				)}
+				{showSummary && <Summary cartProduct={summaryCarts} />}
 			</ProductContext.Provider>
-			<button>Checkout</button>
 		</div>
 	)
 }

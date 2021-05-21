@@ -1,0 +1,11 @@
+.product {
+	&__img {
+		img {
+			width: 70px;
+		}
+	}
+	&__title {
+		font-size: 18px;
+		font-weight: bold;
+	}
+}
