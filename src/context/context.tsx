@@ -9,6 +9,7 @@ type CartContext = {
 	handleAddQuantity: (cartIndex: number, id: number) => void
 	handleRemoveProduct: (cartIndex: number, id: number) => void
 	handleRemoveCart: (cartId: number) => void
+	handleApprovedCart: (cartId: number) => void
 }
 const CartContext = React.createContext<CartContext>({
 	carts: undefined,
@@ -16,6 +17,7 @@ const CartContext = React.createContext<CartContext>({
 	handleAddQuantity: () => {},
 	handleRemoveProduct: () => {},
 	handleRemoveCart: () => {},
+	handleApprovedCart: () => {},
 })
 
 export { ProductContext, CartContext }

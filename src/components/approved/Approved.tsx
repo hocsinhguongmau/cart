@@ -12,13 +12,13 @@ const Approved: Function = ({ approved }: Props) => {
 		<div className='approved'>
 			<h2 className='approved__title'>Your approved list</h2>
 			{approved.map((approved, cartIndex: number) => (
-				<p key={`approved_${approved.id}`}>
+				<div key={`approved_${approved.id}`}>
 					<CartItem
 						key={`cart_${approved.id}`}
 						cart={approved}
 						cartIndex={cartIndex}
 					/>
-				</p>
+				</div>
 			))}
 		</div>
 	)

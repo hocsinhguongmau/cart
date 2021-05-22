@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faShoppingCart, faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 
 import CartItem from "../../components/cartItem/CartItem"
@@ -11,7 +11,6 @@ import { ProductContext, CartContext } from "../../context/context"
 import { CartProductType, CartType, ProductType } from "../../types"
 
 import "./cart.scss"
-import Button from "../../components/button/Button"
 import Discards from "../../components/discards/Discards"
 import Approved from "../../components/approved/Approved"
 const api = "https://fakestoreapi.com"
@@ -24,6 +23,7 @@ const Cart: React.FC = () => {
 	const [carts, setCarts] = useState<CartType[]>([])
 	const [products, setProducts] = useState<ProductType[]>([])
 	const [discards, setDiscards] = useState<CartType[]>([])
+	const [approved, setApproved] = useState<CartType[]>([])
 	const [showSummary, setShowSummary] = useState<boolean>(false)
 	const [summaryCarts, setSummaryCarts] = useState<CartProductType[]>([])
 
@@ -37,6 +37,38 @@ const Cart: React.FC = () => {
 		})
 		setCarts(clonedCarts)
 		setDiscards(removeCarts)
+		//Send delete cart request
+		fetch(`${api}/carts/${cartId}`, {
+			method: "DELETE",
+		})
+			.then((res) => res.json())
+			.then((json) => console.log(json))
+		if (carts.length < 2) {
+			handleCheckout()
+		}
+	}
+
+	const handleApprovedCart = (cartId: number) => {
+		const clonedCarts = carts.filter((cart) => cart.id !== cartId)
+		const approvedCarts = [...approved]
+		carts.forEach((cart) => {
+			if (cart.id === cartId) {
+				approvedCarts.push(cart)
+				//Send request for approved cart
+				fetch(`${api}/carts`, {
+					method: "POST",
+					body: JSON.stringify(cart),
+				})
+					.then((res) => res.json())
+					.then((json) => console.log(json))
+			}
+		})
+		setCarts(clonedCarts)
+		setApproved(approvedCarts)
+
+		if (carts.length < 2) {
+			handleCheckout()
+		}
 	}
 
 	const handleSubtractQuantity = (cartIndex: number, id: number) => {
@@ -112,10 +144,15 @@ const Cart: React.FC = () => {
 		}
 
 		setDiscards(removedCarts)
+		fetch(`${api}/products/${id}`, {
+			method: "DELETE",
+		})
+			.then((res) => res.json())
+			.then((json) => console.log(json))
 	}
 	const handleCheckout = () => {
 		const summaryProducts: any = []
-		carts.forEach((cart) =>
+		approved.forEach((cart) =>
 			cart.products.forEach((product) => {
 				summaryProducts.push(product)
 			}),
@@ -179,6 +216,7 @@ const Cart: React.FC = () => {
 								handleAddQuantity,
 								handleRemoveProduct,
 								handleRemoveCart,
+								handleApprovedCart,
 							}}>
 							{cartError ? "Failed to load cart" : null}
 							{productError ? "Failed to load products" : null}
@@ -200,23 +238,13 @@ const Cart: React.FC = () => {
 								))
 							) : null}
 						</CartContext.Provider>
-						{carts.length >= 1 ? (
-							<Button onClickHandler={handleCheckout}>
-								Checkout
-								<FontAwesomeIcon icon={faShoppingCart} />
-							</Button>
-						) : (
-							<div className='cart__empty'>
-								Your cart is empty
-							</div>
-						)}
 					</>
 				)}
 				{showSummary && (
 					<>
 						<Summary cartProduct={summaryCarts} />
 						<div className='choice-lists'>
-							<Approved approved={carts} withButtons={false} />
+							<Approved approved={approved} withButtons={false} />
 							{discards.length ? (
 								<Discards
 									discards={discards}

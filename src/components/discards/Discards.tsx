@@ -12,13 +12,13 @@ const Discards: Function = ({ discards }: Props) => {
 		<div className='discards'>
 			<h2 className='discards__title'>Your discard list</h2>
 			{discards.map((discard, cartIndex: number) => (
-				<p key={`discard_${discard.id}`}>
+				<div key={`discard_${discard.id}`}>
 					<CartItem
 						key={`cart_${discard.id}`}
 						cart={discard}
 						cartIndex={cartIndex}
 					/>
-				</p>
+				</div>
 			))}
 		</div>
 	)

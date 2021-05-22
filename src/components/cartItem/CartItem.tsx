@@ -8,7 +8,7 @@ import { CartProductType, CartType } from "../../types"
 import { CartContext } from "../../context/context"
 import Button from "../button/Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
+import { faCheck, faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 
 type Props = {
 	cart: CartType
@@ -26,10 +26,20 @@ const CartItem: Function = ({
 			<p className='cartItem__title'>
 				Order number: {cart.id}
 				{withButtons && (
-					<Button
-						onClickHandler={() => carts.handleRemoveCart(cart.id)}>
-						<FontAwesomeIcon icon={faTrashAlt} />
-					</Button>
+					<>
+						<Button
+							onClickHandler={() =>
+								carts.handleRemoveCart(cart.id)
+							}>
+							<FontAwesomeIcon icon={faTrashAlt} />
+						</Button>
+						<Button
+							onClickHandler={() =>
+								carts.handleApprovedCart(cart.id)
+							}>
+							<FontAwesomeIcon icon={faCheck} />
+						</Button>
+					</>
 				)}
 			</p>
 			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
