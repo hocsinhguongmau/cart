@@ -14,9 +14,9 @@ const Summary: Function = ({ cartProduct }: Props) => {
 	const products = useContext(ProductContext)
 	const [finalPrice, setFinalPrice] = useState<number>(0)
 	const totalSummary = () => {
-		let total = 0
+		let total: number = 0
 		cartProduct.map((cart, index) => {
-			let price = Number(
+			let price: number = Number(
 				products
 					?.filter((product) => product.id === cart.productId)
 					.map((product) => product.price),
@@ -30,7 +30,7 @@ const Summary: Function = ({ cartProduct }: Props) => {
 			}
 			total += cart.quantity * price
 		})
-		setFinalPrice(total)
+		setFinalPrice(Number(total.toFixed(2)))
 	}
 
 	useEffect(() => {
@@ -57,8 +57,8 @@ const Summary: Function = ({ cartProduct }: Props) => {
 						/>
 					))}
 					<tr className='total-price'>
-						<td colSpan={2}>Total</td>
-						<td colSpan={3}>{finalPrice}</td>
+						<td colSpan={4}>Total</td>
+						<td colSpan={1}>${finalPrice}</td>
 					</tr>
 				</tbody>
 			</table>

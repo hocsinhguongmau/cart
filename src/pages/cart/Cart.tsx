@@ -12,6 +12,7 @@ import { CartProductType, CartType, ProductType } from "../../types"
 
 import "./cart.scss"
 import Button from "../../components/button/Button"
+import { filter, remove } from "lodash"
 const api = "https://fakestoreapi.com"
 const numberOfCarts: number = 5
 
@@ -74,6 +75,26 @@ const Cart: React.FC = () => {
 	const handleRemoveProduct = (cartIndex: number, id: number) => {
 		const clonedCarts = [...carts]
 		const products = clonedCarts[cartIndex].products
+		const filteredProduct = products.filter(
+			(product) => product.productId === id,
+		)
+		const removedCarts = [...discards]
+
+		if (
+			removedCarts.find(
+				(cart) => cart.id === clonedCarts[cartIndex].id,
+			) === undefined
+		) {
+			const { products, ...cart } = clonedCarts[cartIndex]
+			const newCart = { ...cart, products: filteredProduct }
+			removedCarts.push(newCart)
+		} else {
+			removedCarts.map((cart) => {
+				if (cart.id === clonedCarts[cartIndex].id) {
+					cart.products.push(filteredProduct[0])
+				}
+			})
+		}
 		if (products.length > 1) {
 			const filteredCart = products.filter(
 				(product) => product.productId !== id,
@@ -88,6 +109,8 @@ const Cart: React.FC = () => {
 
 			setCarts(filteredCarts)
 		}
+
+		setDiscards(removedCarts)
 	}
 	const handleCheckout = () => {
 		const summaryProducts: any = []
@@ -188,6 +211,15 @@ const Cart: React.FC = () => {
 					</>
 				)}
 				{showSummary && <Summary cartProduct={summaryCarts} />}
+				{discards.map((discard, cartIndex) => (
+					<p key={`discard_${discard.id}`}>
+						<CartItem
+							key={`cart_${discard.id}`}
+							cart={discard}
+							cartIndex={cartIndex}
+						/>
+					</p>
+				))}
 			</ProductContext.Provider>
 		</div>
 	)
