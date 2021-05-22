@@ -1,0 +1,17 @@
+.discards {
+	&__title {
+		text-align: center;
+		font-size: 20px;
+		background-color: #f76949;
+		padding: 20px 0;
+	}
+	table {
+		th {
+			background-color: #f76949;
+		}
+		td,
+		th {
+			border-color: #f76949;
+		}
+	}
+}

@@ -15,7 +15,7 @@ const Summary: Function = ({ cartProduct }: Props) => {
 	const [finalPrice, setFinalPrice] = useState<number>(0)
 	const totalSummary = () => {
 		let total: number = 0
-		cartProduct.map((cart, index) => {
+		cartProduct.forEach((cart, index) => {
 			let price: number = Number(
 				products
 					?.filter((product) => product.id === cart.productId)

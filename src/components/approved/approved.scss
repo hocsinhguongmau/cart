@@ -1,0 +1,17 @@
+.approved {
+	&__title {
+		text-align: center;
+		font-size: 20px;
+		background-color: #79f749;
+		padding: 20px 0;
+	}
+	table {
+		th {
+			background-color: #79f749;
+		}
+		td,
+		th {
+			border-color: #79f749;
+		}
+	}
+}
