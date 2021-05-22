@@ -215,10 +215,21 @@ const Cart: React.FC = () => {
 				{showSummary && (
 					<>
 						<Summary cartProduct={summaryCarts} />
-						{discards.length > 0 && (
-							<Discards discards={discards} withButtons={false} />
-						)}
-						<Approved approved={carts} withButtons={false} />
+						<div className='choice-lists'>
+							<Approved approved={carts} withButtons={false} />
+							{discards.length ? (
+								<Discards
+									discards={discards}
+									withButtons={false}
+								/>
+							) : (
+								<div className='discards'>
+									<h2 className='discards__title'>
+										You have no discard item
+									</h2>
+								</div>
+							)}
+						</div>
 					</>
 				)}
 			</ProductContext.Provider>
