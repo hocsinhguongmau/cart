@@ -195,6 +195,7 @@ const Cart: React.FC = () => {
 										key={`cart_${cart.id}`}
 										cart={cart}
 										cartIndex={cartIndex}
+										withButtons={true}
 									/>
 								))
 							) : null}
@@ -215,9 +216,9 @@ const Cart: React.FC = () => {
 					<>
 						<Summary cartProduct={summaryCarts} />
 						{discards.length > 0 && (
-							<Discards discards={discards} />
+							<Discards discards={discards} withButtons={false} />
 						)}
-						<Approved approved={carts} />
+						<Approved approved={carts} withButtons={false} />
 					</>
 				)}
 			</ProductContext.Provider>

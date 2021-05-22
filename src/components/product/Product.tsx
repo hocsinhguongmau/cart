@@ -11,9 +11,10 @@ import "./product.scss"
 type Props = {
 	cartProduct: CartProductType
 	cartIndex: number
+	withButtons: boolean
 }
 
-const Product: Function = ({ cartProduct, cartIndex }: Props) => {
+const Product: Function = ({ cartProduct, cartIndex, withButtons }: Props) => {
 	const products = useContext(ProductContext)!
 	let carts = useContext(CartContext)!
 
@@ -27,32 +28,44 @@ const Product: Function = ({ cartProduct, cartIndex }: Props) => {
 					<td className='product__title'>{product.title}</td>
 					<td className='product__price'>{product.price} </td>
 					<td className='product__price'>
-						<Button
-							onClickHandler={() =>
-								carts.handleSubtractQuantity(
-									cartIndex,
-									product.id,
-								)
-							}>
-							<FontAwesomeIcon icon={faMinus} />
-						</Button>
+						{withButtons && (
+							<Button
+								onClickHandler={() =>
+									carts.handleSubtractQuantity(
+										cartIndex,
+										product.id,
+									)
+								}>
+								<FontAwesomeIcon icon={faMinus} />
+							</Button>
+						)}
 
 						{cartProduct.quantity}
-						<Button
-							onClickHandler={() =>
-								carts.handleAddQuantity(cartIndex, product.id)
-							}>
-							<FontAwesomeIcon icon={faPlus} />
-						</Button>
+						{withButtons && (
+							<Button
+								onClickHandler={() =>
+									carts.handleAddQuantity(
+										cartIndex,
+										product.id,
+									)
+								}>
+								<FontAwesomeIcon icon={faPlus} />
+							</Button>
+						)}
 					</td>
-					<td>
-						<Button
-							onClickHandler={() =>
-								carts.handleRemoveProduct(cartIndex, product.id)
-							}>
-							<FontAwesomeIcon icon={faTrashAlt} />
-						</Button>
-					</td>
+					{withButtons && (
+						<td>
+							<Button
+								onClickHandler={() =>
+									carts.handleRemoveProduct(
+										cartIndex,
+										product.id,
+									)
+								}>
+								<FontAwesomeIcon icon={faTrashAlt} />
+							</Button>
+						</td>
+					)}
 				</tr>
 			)
 		}

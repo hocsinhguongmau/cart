@@ -13,16 +13,24 @@ import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
 type Props = {
 	cart: CartType
 	cartIndex: number
+	withButtons: boolean
 }
-const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
+const CartItem: Function = ({
+	cart,
+	cartIndex,
+	withButtons,
+}: Props): JSX.Element => {
 	const carts = useContext(CartContext)
 	return (
 		<div className='cartItem' data-testid='cart-item'>
 			<p className='cartItem__title'>
 				Order number: {cart.id}
-				<Button onClickHandler={() => carts.handleRemoveCart(cart.id)}>
-					<FontAwesomeIcon icon={faTrashAlt} />
-				</Button>
+				{withButtons && (
+					<Button
+						onClickHandler={() => carts.handleRemoveCart(cart.id)}>
+						<FontAwesomeIcon icon={faTrashAlt} />
+					</Button>
+				)}
 			</p>
 			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
 				<thead>
@@ -31,7 +39,7 @@ const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
 						<th>Name</th>
 						<th>Price</th>
 						<th>Quantity</th>
-						<th>Remove</th>
+						{withButtons && <th>Remove</th>}
 					</tr>
 				</thead>
 				<tbody>
@@ -41,6 +49,7 @@ const CartItem: Function = ({ cart, cartIndex }: Props): JSX.Element => {
 							cartIndex={cartIndex}
 							key={`product_${cartProduct.productId}`}
 							cartProduct={cartProduct}
+							withButtons={withButtons}
 						/>
 					))}
 				</tbody>
