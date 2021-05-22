@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+import { faShoppingCart, faSpinner } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 
 import CartItem from "../../components/cartItem/CartItem"
@@ -147,7 +147,7 @@ const Cart: React.FC = () => {
 			<h1 className='cart__title'>Your cart</h1>
 			<ProductContext.Provider value={products}>
 				{!showSummary && (
-					<div>
+					<>
 						<CartContext.Provider
 							value={{
 								carts,
@@ -175,10 +175,17 @@ const Cart: React.FC = () => {
 								))
 							) : null}
 						</CartContext.Provider>
-						<Button onClickHandler={handleCheckout}>
-							Checkout
-						</Button>
-					</div>
+						{carts.length > 1 ? (
+							<Button onClickHandler={handleCheckout}>
+								Checkout
+								<FontAwesomeIcon icon={faShoppingCart} />
+							</Button>
+						) : (
+							<div className='cart__empty'>
+								Your cart is empty
+							</div>
+						)}
+					</>
 				)}
 				{showSummary && <Summary cartProduct={summaryCarts} />}
 			</ProductContext.Provider>

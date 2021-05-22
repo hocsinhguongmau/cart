@@ -56,6 +56,7 @@ const Product: Function = ({ cartProduct, cartIndex }: Props) => {
 				</tr>
 			)
 		}
+		return null
 	})
 }
 

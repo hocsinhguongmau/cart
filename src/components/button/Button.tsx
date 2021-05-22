@@ -1,9 +1,4 @@
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useContext } from "react"
-
-import { ProductContext, CartContext } from "../../context/context"
-import { CartProductType, ProductType } from "../../types"
+import React from "react"
 
 import "./button.scss"
 

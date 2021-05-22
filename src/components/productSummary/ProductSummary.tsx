@@ -23,12 +23,22 @@ const ProductSummary: Function = ({ cartProduct, cartIndex }: Props) => {
 				discount = 0.4
 			}
 
-			return `$${price * quantity} $${(
-				price * quantity -
-				discount * (price * quantity)
-			).toFixed(2)}`
+			return (
+				<>
+					<del>${(price * quantity).toFixed(2)}</del>
+					<br />-{discount * 100}%
+					<br />
+					<span className='price'>
+						$
+						{(
+							price * quantity -
+							price * quantity * discount
+						).toFixed(2)}
+					</span>
+				</>
+			)
 		} else {
-			return `$${price * quantity}`
+			return `$${(price * quantity).toFixed(2)}`
 		}
 	}
 
@@ -46,6 +56,7 @@ const ProductSummary: Function = ({ cartProduct, cartIndex }: Props) => {
 				</tr>
 			)
 		}
+		return null
 	})
 }
 

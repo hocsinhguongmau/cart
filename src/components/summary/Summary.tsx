@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useContext, useState, useEffect } from "react"
 
 import { CartProductType } from "../../types"
 import ProductSummary from "../productSummary/ProductSummary"
+import { ProductContext } from "../../context/context"
 
 import "./summary.scss"
 
@@ -10,6 +11,32 @@ type Props = {
 }
 
 const Summary: Function = ({ cartProduct }: Props) => {
+	const products = useContext(ProductContext)
+	const [finalPrice, setFinalPrice] = useState<number>(0)
+	const totalSummary = () => {
+		let total = 0
+		cartProduct.map((cart, index) => {
+			let price = Number(
+				products
+					?.filter((product) => product.id === cart.productId)
+					.map((product) => product.price),
+			)
+			if (cart.quantity === 2) {
+				price = price - price * 0.2
+			} else if (cart.quantity === 3) {
+				price = price - price * 0.3
+			} else if (cart.quantity >= 4) {
+				price = price - price * 0.4
+			}
+			total += cart.quantity * price
+		})
+		setFinalPrice(total)
+	}
+
+	useEffect(() => {
+		totalSummary()
+	}, [])
+
 	return (
 		<div className='summaryItem' data-testid='summary-item'>
 			<table cellPadding={0} cellSpacing={0} data-testid='summary-table'>
@@ -29,6 +56,10 @@ const Summary: Function = ({ cartProduct }: Props) => {
 							cartProduct={cart}
 						/>
 					))}
+					<tr className='total-price'>
+						<td colSpan={2}>Total</td>
+						<td colSpan={3}>{finalPrice}</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
