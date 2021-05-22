@@ -26,10 +26,12 @@ const Cart: React.FC = () => {
 	const [approved, setApproved] = useState<CartType[]>([])
 	const [showSummary, setShowSummary] = useState<boolean>(false)
 	const [summaryCarts, setSummaryCarts] = useState<CartProductType[]>([])
+	const [cartLength, setCartLength] = useState<number>(0)
 
 	const handleRemoveCart = (cartId: number) => {
 		const clonedCarts = carts.filter((cart) => cart.id !== cartId)
 		const removeCarts = [...discards]
+		const approvedCarts = [...approved]
 		carts.forEach((cart) => {
 			if (cart.id === cartId) {
 				removeCarts.push(cart)
@@ -43,8 +45,8 @@ const Cart: React.FC = () => {
 		})
 			.then((res) => res.json())
 			.then((json) => console.log(json))
-		if (carts.length < 2) {
-			handleCheckout()
+		if (clonedCarts.length < 1) {
+			handleCheckout(approvedCarts)
 		}
 	}
 
@@ -65,9 +67,10 @@ const Cart: React.FC = () => {
 		})
 		setCarts(clonedCarts)
 		setApproved(approvedCarts)
+		setCartLength(cartLength - 1)
 
-		if (carts.length < 2) {
-			handleCheckout()
+		if (clonedCarts.length < 1) {
+			handleCheckout(approvedCarts)
 		}
 	}
 
@@ -150,8 +153,9 @@ const Cart: React.FC = () => {
 			.then((res) => res.json())
 			.then((json) => console.log(json))
 	}
-	const handleCheckout = () => {
+	const handleCheckout = (approved: CartType[]) => {
 		const summaryProducts: any = []
+
 		approved.forEach((cart) =>
 			cart.products.forEach((product) => {
 				summaryProducts.push(product)
@@ -180,6 +184,7 @@ const Cart: React.FC = () => {
 				.get(`${api}/carts?limit=${numberOfCarts}`)
 				.then(function (response: any) {
 					setCarts(response.data)
+					setCartLength(response.data.length)
 				})
 				.catch(function (error: string) {
 					setCartError(error)
