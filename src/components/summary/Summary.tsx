@@ -58,7 +58,9 @@ const Summary = ({ cartProduct }: Props) => {
 					))}
 					<tr className='total-price'>
 						<td colSpan={4}>Total</td>
-						<td colSpan={1}>${finalPrice}</td>
+						<td data-testid='total' colSpan={1}>
+							${finalPrice}
+						</td>
 					</tr>
 				</tbody>
 			</table>

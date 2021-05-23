@@ -39,7 +39,6 @@ const Cart: React.FC = () => {
 		})
 		setCarts(clonedCarts)
 		setDiscards(removeCarts)
-		//Send delete cart request
 		fetch(`${api}/carts/${cartId}`, {
 			method: "DELETE",
 		})
@@ -56,7 +55,6 @@ const Cart: React.FC = () => {
 		carts.forEach((cart) => {
 			if (cart.id === cartId) {
 				approvedCarts.push(cart)
-				//Send request for approved cart
 				fetch(`${api}/carts`, {
 					method: "POST",
 					body: JSON.stringify(cart),
@@ -145,13 +143,12 @@ const Cart: React.FC = () => {
 
 			setCarts(filteredCarts)
 		}
-
-		setDiscards(removedCarts)
 		fetch(`${api}/products/${id}`, {
 			method: "DELETE",
 		})
 			.then((res) => res.json())
 			.then((json) => console.log(json))
+		setDiscards(removedCarts)
 	}
 	const handleCheckout = (approved: CartType[]) => {
 		const summaryProducts: any = []

@@ -1,11 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react"
 import Button from "../components/button/Button"
-import React from "react"
-
-type Props = {
-	children: any
-	onClickHandler: () => {}
-}
 
 const handleClick = jest.fn()
 describe("<Button />", () => {

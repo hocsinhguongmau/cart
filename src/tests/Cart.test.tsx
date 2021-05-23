@@ -6,7 +6,7 @@ import { carts, products } from "../mockData"
 import axios from "axios"
 
 describe("<Cart />", () => {
-	it("Cart should render its title", () => {
+	it("Cart should render its title", async () => {
 		const { getByText } = render(<Cart />)
 		expect(getByText(/Your cart/i)).toBeInTheDocument()
 	})

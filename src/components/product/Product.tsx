@@ -23,12 +23,24 @@ const Product: Function = ({ cartProduct, cartIndex, withButtons }: Props) => {
 				if (product.id === cartProduct.productId) {
 					return (
 						<tr className='product' key={`product_${product.id}`}>
-							<td className='product__img'>
+							<td
+								data-testid='product-image'
+								className='product__img'>
 								<img alt={product.title} src={product.image} />
 							</td>
-							<td className='product__title'>{product.title}</td>
-							<td className='product__price'>{product.price} </td>
-							<td className='product__price'>
+							<td
+								data-testid='product-title'
+								className='product__title'>
+								{product.title}
+							</td>
+							<td
+								data-testid='product-price'
+								className='product__price'>
+								{product.price}{" "}
+							</td>
+							<td
+								data-testid='product-quantity'
+								className='product__price'>
 								{withButtons ? (
 									<Button
 										onClickHandler={() =>

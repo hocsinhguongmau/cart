@@ -42,22 +42,28 @@ const ProductSummary: Function = ({ cartProduct, cartIndex }: Props) => {
 		}
 	}
 
-	return products.map((product: ProductType) => {
-		if (product.id === cartProduct.productId) {
-			return (
-				<tr className='product' key={`product_${product.id}`}>
-					<td className='product__img'>
-						<img alt={product.title} src={product.image} />
-					</td>
-					<td className='product__title'>{product.title}</td>
-					<td className='product__price'>{product.price} </td>
-					<td className='product__price'>{cartProduct.quantity}</td>
-					<td>{total(product.price, cartProduct.quantity)}</td>
-				</tr>
-			)
-		}
-		return null
-	})
+	return products !== undefined
+		? products.map((product: ProductType) => {
+				if (product.id === cartProduct.productId) {
+					return (
+						<tr className='product' key={`product_${product.id}`}>
+							<td className='product__img'>
+								<img alt={product.title} src={product.image} />
+							</td>
+							<td className='product__title'>{product.title}</td>
+							<td className='product__price'>{product.price} </td>
+							<td className='product__price'>
+								{cartProduct.quantity}
+							</td>
+							<td>
+								{total(product.price, cartProduct.quantity)}
+							</td>
+						</tr>
+					)
+				}
+				return null
+		  })
+		: null
 }
 
 export default ProductSummary
