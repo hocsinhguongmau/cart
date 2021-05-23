@@ -7,7 +7,7 @@ type Props = {
 	onClickHandler: () => void
 }
 
-const Button: Function = ({ children, onClickHandler }: Props) => {
+const Button = ({ children, onClickHandler }: Props) => {
 	return (
 		<button onClick={onClickHandler} className='button'>
 			{children}

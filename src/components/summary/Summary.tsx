@@ -10,7 +10,7 @@ type Props = {
 	cartProduct: CartProductType[]
 }
 
-const Summary: Function = ({ cartProduct }: Props) => {
+const Summary = ({ cartProduct }: Props) => {
 	const products = useContext(ProductContext)
 	const [finalPrice, setFinalPrice] = useState<number>(0)
 	const totalSummary = () => {
