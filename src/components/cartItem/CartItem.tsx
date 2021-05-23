@@ -25,7 +25,7 @@ const CartItem: Function = ({
 		<div className='cartItem' data-testid='cart-item'>
 			<p className='cartItem__title'>
 				Order number: {cart.id}
-				{withButtons && (
+				{withButtons ? (
 					<>
 						<Button
 							onClickHandler={() =>
@@ -40,7 +40,7 @@ const CartItem: Function = ({
 							<FontAwesomeIcon icon={faCheck} />
 						</Button>
 					</>
-				)}
+				) : null}
 			</p>
 			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
 				<thead>
@@ -49,7 +49,7 @@ const CartItem: Function = ({
 						<th>Name</th>
 						<th>Price</th>
 						<th>Quantity</th>
-						{withButtons && <th>Remove</th>}
+						{withButtons ? <th>Remove</th> : null}
 					</tr>
 				</thead>
 				<tbody>

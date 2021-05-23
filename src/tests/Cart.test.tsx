@@ -1,8 +1,8 @@
 import React from "react"
 import { render, screen, waitFor } from "@testing-library/react"
 import moxios from "moxios"
-import Cart from "./Cart"
-import { carts, products } from "../../mockData"
+import Cart from "../pages/cart/Cart"
+import { carts, products } from "../mockData"
 import axios from "axios"
 
 describe("<Cart />", () => {
