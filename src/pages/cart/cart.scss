@@ -1,11 +1,18 @@
 .cart {
-	padding-bottom: 30px;
+	padding: 0 20px 30px;
+
 	&__title {
 		margin: 0;
 		background-color: #d0dfde;
 		font-size: 30px;
 		text-align: center;
 		padding: 30px;
+		margin-left: -20px;
+		margin-right: -20px;
+		@media screen and (max-width: 767px) {
+			font-size: 24px;
+			padding: 20px;
+		}
 	}
 	&__empty {
 		font-size: 30px;
@@ -31,5 +38,8 @@
 		width: calc(50% - 30px);
 		float: left;
 		margin: 0 15px;
+		@media screen and (max-width: 767px) {
+			width: calc(100% - 30px);
+		}
 	}
 }

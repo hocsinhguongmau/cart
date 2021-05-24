@@ -40,7 +40,7 @@ const Product: Function = ({ cartProduct, cartIndex, withButtons }: Props) => {
 							</td>
 							<td
 								data-testid='product-quantity'
-								className='product__price'>
+								className='product__quantity'>
 								{withButtons ? (
 									<Button
 										onClickHandler={() =>

@@ -42,7 +42,11 @@ const CartItem: Function = ({
 					</>
 				) : null}
 			</p>
-			<table cellPadding={0} cellSpacing={0} data-testid='cart-table'>
+			<table
+				cellPadding={0}
+				cellSpacing={0}
+				data-testid='cart-table'
+				className='cartItem__table'>
 				<thead>
 					<tr>
 						<th>Image</th>

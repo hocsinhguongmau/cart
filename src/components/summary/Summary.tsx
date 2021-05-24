@@ -39,7 +39,11 @@ const Summary = ({ cartProduct }: Props) => {
 
 	return (
 		<div className='summaryItem' data-testid='summary-item'>
-			<table cellPadding={0} cellSpacing={0} data-testid='summary-table'>
+			<table
+				cellPadding={0}
+				cellSpacing={0}
+				data-testid='summary-table'
+				className='summaryItem__table'>
 				<thead>
 					<tr>
 						<th>Image</th>

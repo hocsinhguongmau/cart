@@ -52,7 +52,7 @@ const ProductSummary: Function = ({ cartProduct, cartIndex }: Props) => {
 							</td>
 							<td className='product__title'>{product.title}</td>
 							<td className='product__price'>{product.price} </td>
-							<td className='product__price'>
+							<td className='product__quantity'>
 								{cartProduct.quantity}
 							</td>
 							<td>

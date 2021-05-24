@@ -12,6 +12,14 @@
 		td,
 		th {
 			border-color: #79f749;
+			&.product__quantity {
+				min-width: auto;
+			}
+			@media screen and (max-width: 767px) {
+				&::before {
+					border-color: #79f749;
+				}
+			}
 		}
 	}
 }

@@ -7,10 +7,17 @@
 	&__title {
 		font-size: 18px;
 		font-weight: bold;
+		@media screen and (max-width: 1024px) {
+			font-size: 14px;
+		}
+		@media screen and (max-width: 767px) {
+			font-weight: normal;
+		}
 	}
-	&__price {
+	&__quantity {
 		.button {
 			margin: 0 10px;
 		}
+		min-width: 140px;
 	}
 }
